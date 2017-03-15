@@ -10,6 +10,23 @@ namespace Hotel_IgenIgen
     {
         static void Main(string[] args)
         {
+            ListAlleHoteller();
         }
+
+        private static void ListAlleHoteller()
+        {
+            using (var db = new HotelContext()) 
+            {
+                var HotelList1 = from h in db.Hotel
+                                 select h;
+
+                foreach (var h in HotelList1)
+                {
+                    Console.WriteLine($"Hotelnummer: {h.Hotel_No}, hotelnavn: {h.Name}, hoteladresse: {h.Address}");
+                }
+            }
+        }
+
+        
     }
 }
