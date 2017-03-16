@@ -11,9 +11,11 @@ namespace Hotel_IgenIgen
         static void Main(string[] args)
         {
             //ListAlleHoteller();
-            ListAlleKunder();
+            //ListAlleKunder();
+            ListRoom();
         }
 
+        // List alle informationer om alle hotellerne
         private static void ListAlleHoteller()
         {
             using (var db = new HotelContext()) 
@@ -28,6 +30,7 @@ namespace Hotel_IgenIgen
             }
         }
 
+        // List alle informationer om alle hotellerne
         private static void ListAlleKunder()
         {
             using (var db = new HotelContext())
@@ -41,6 +44,22 @@ namespace Hotel_IgenIgen
                 }
             }
         }
+        // List hotelnavn, adresse, samt værelsesinformation(nr, type, pris) om de værelser hotellerne har. 
+        private static void ListRoom()
+        {
+            using (var db = new HotelContext())
+            {
+                var HotelList3 = from h in db.Hotel
+                                 join r in db.Room
+                                 on h.Hotel_No equals r.Hotel_No
+                                 select new { h.Name, h.Address, r.Room_No, r.Types, r.Price };
 
+                foreach (var item in HotelList3)
+                {
+                    Console.WriteLine($"Hotelnavn: {item.Name}, adresse: {item.Address}, Værelsesnummer:{item.Room_No}, type: {item.Types}, pris: {item.Price}");
+                    Console.WriteLine();
+                }
+            }
+        }
     }
 }
