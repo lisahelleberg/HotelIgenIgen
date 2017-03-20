@@ -12,7 +12,8 @@ namespace Hotel_IgenIgen
         {
             //ListAlleHoteller();
             //ListAlleKunder();
-            ListRoom();
+            //ListRoom();
+            Reservations();
         }
 
         // List alle informationer om alle hotellerne
@@ -58,6 +59,24 @@ namespace Hotel_IgenIgen
                 {
                     Console.WriteLine($"Hotelnavn: {item.Name}, adresse: {item.Address}, Værelsesnummer:{item.Room_No}, type: {item.Types}, pris: {item.Price}");
                     Console.WriteLine();
+                }
+            }
+        }
+
+        // List alle de reservationer hver enkelt værelse har.
+        private static void Reservations()
+        {
+            using (var db = new HotelContext())
+            {
+                var HotelList4 = from b in db.Booking
+                                 join h in db.Hotel
+                                 on b.Hotel_No equals h.Hotel_No
+                                 orderby h.Hotel_No
+                                 select new { h.Name, b.Room_No, b.Booking_id, b.Date_From, b.Date_To };
+
+                foreach (var item in HotelList4)
+                {
+                    Console.WriteLine($"Hotelnavn: {item.Name}, værelsesnummer: {item.Room_No}, BookingID: {item.Booking_id}, \n   fra: {item.Date_From}, til: {item.Date_To}");
                 }
             }
         }
